@@ -11,11 +11,11 @@ const Contact = () => {
         <img className='w-full max-w-[370px] lg:mr-20 outline-none rounded-xl shadow-xl' src={assets.contact_image} alt="" />
         <div className='flex flex-col md:pl-10 gap-6'>
         <p className='text-gray-900 text-xl font-medium'>OUR OFFICE</p>
-        <p className='text-gray-600 text-sm' >54 MG Road Suite 210, Bengaluru, Karnataka, India, 560001</p>
-        <p className='text-gray-600 text-sm'>Tel: (+91) 99999-99999 <br />Email: prescripto@gmail.com</p>
-        <p  className='text-gray-900 text-xl font-medium'>Careers at PRESCRIPTO</p>
+        <p className='text-gray-600 text-sm' >A-25, 3rd Floor, Shivalik Road, Malviya Nagar, New Delhi, Delhi, India, 110017</p>
+        <p className='text-gray-600 text-sm'>Tel: (+91) 99999-99999 <br />Email: docontime@gmail.com</p>
+        <p  className='text-gray-900 text-xl font-medium'>Careers at DocOnTime</p>
         <p className='text-gray-600 text-sm'>Learn more about our teams and job openings.</p>
-        <button className='border py-3 border-gray-300 rounded-lg hover:outline-none hover:border-none  hover:scale-105 hover:shadow-lg transition-all duration-300 hover:text-white hover:bg-sky-600'>Explore Jobs</button>
+        <button className='border py-3 border-gray-300 rounded-lg hover:outline-none hover:border-none  hover:scale-105 hover:shadow-lg transition-all duration-300 hover:text-white hover:bg-sky-800'>Explore Jobs</button>
         </div>
      
       </div>

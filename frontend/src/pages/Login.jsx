@@ -1,6 +1,11 @@
-import React, { useState } from 'react'
-
+import React, { useContext, useEffect, useState } from 'react'
+import { AppContext } from '../context/AppContext';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 const Login = () => {
+  const navigate = useNavigate();
+  const {backendUrl, token, setToken} = useContext(AppContext);
   const [state, setState] = useState('Sign Up');
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
@@ -8,11 +13,39 @@ const Login = () => {
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
-    // Add any form handling logic here
+    //! Add any form handling logic here
+    try {
+      if(state == 'Sign Up'){
+        const {data} = await axios.post(backendUrl + '/api/user/register',{name,password,email})
+        if(data.success){
+          localStorage.setItem('token',data.token);
+          setToken(data.token)
+        }else{
+          toast.error(data.message);
+        }
+      }else{
+        const {data} = await axios.post(backendUrl + '/api/user/login',{password,email})
+        if(data.success){
+          localStorage.setItem('token',data.token);
+          setToken(data.token)
+        }else{
+          toast.error(data.message);
+        }
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+    
   };
 
+  useEffect(()=>{
+    if(token){
+      navigate('/')
+    }
+  },[token])
+
   return (
-    <form onSubmit={onSubmitHandler} className='min-h-screen flex items-center justify-center bg-gradient-to-b from-sky-300 to-white hover:shadow-lg outline-none hover:bg-gradient-to-b hover:from-white hover:to-sky-300 transition-all duration-700 rounded-lg'>
+    <form onSubmit={onSubmitHandler} className='m-10 min-h-screen flex items-center justify-center bg-gradient-to-b from-sky-300 to-white hover:shadow-lg outline-none hover:bg-gradient-to-b hover:from-white hover:to-sky-300 transition-all duration-700 rounded-lg'>
       <div className=' flex flex-col gap-4 p-8 w-full max-w-md bg-white border border-gray-200 rounded-lg shadow-md'>
         <h2 className='text-2xl font-semibold text-sky-900'>
           {state === 'Sign Up' ? "Create Account" : "Login"}

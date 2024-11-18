@@ -1,18 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
 import { assets } from '../assets/assets';
 import RelatedDoctors from '../components/RelatedDoctors';
+import { toast } from 'react-toastify';
+import axios from 'axios';
 
 const Appointment = () => {
   //! to fetch the doctorId from the route
   const { docId } = useParams();
 
   //! fetching the global doctors data
-  const { doctors, currencySymbol } = useContext(AppContext);
+  const { doctors, currencySymbol,token, backendUrl,getDoctorsData } = useContext(AppContext);
   const daysOfWeek = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
 
   const [docInfo, setDocInfo] = useState(null);
+  const navigate = useNavigate();
 
   // ! slot booking
   const [docSlots, setDocSlots] = useState([]);
@@ -56,11 +59,23 @@ const Appointment = () => {
       while (currentDate < endTime) {
         let formattedTime = currentDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
+        let day = currentDate.getDate();
+        let month = currentDate.getMonth()+1;
+        let year = currentDate.getFullYear();
+
+        const slotDate = day + "_" + month + "_" + year;
+        const slotTime = formattedTime;
+
+        const isSlotAvailable = docInfo.slots_booked[slotDate] && docInfo.slots_booked[slotDate].includes(slotTime)?false : true;
+
         //! add slot to array
-        timeSlots.push({
-          datetime: new Date(currentDate),
-          time: formattedTime,
-        });
+        if(isSlotAvailable){
+          timeSlots.push({
+            datetime: new Date(currentDate),
+            time: formattedTime,
+          });
+        }
+      
         //! Increment current time by 30 minutes
         currentDate.setMinutes(currentDate.getMinutes() + 30);
       }
@@ -69,6 +84,34 @@ const Appointment = () => {
 
     setDocSlots(slots); // Set docSlots once with the accumulated slots
   };
+
+  const bookAppointment = async()=>{
+    if(!token){
+      toast.warn('Login to book the appointment');
+      return navigate('/login')
+    }
+    try {
+      const date = docSlots[slotIndex][0].datetime;
+      let day = date.getDate();
+      let month = date.getMonth()+1;
+      let year = date.getFullYear();
+      const slotDate = day + "_" + month + "_" + year;
+
+      //* api to book the appointment
+      const {data} = await axios.post(backendUrl + '/api/user/book-appointment',{docId,slotDate,slotTime},{headers:{token}})
+      if(data.success){
+        toast.success(data.message);
+        getDoctorsData();
+        navigate('/my-appointments')
+      }else{
+        toast.error(data.message)
+      }
+    } catch (error) {
+      console.log(error.message);
+      toast.error(error.message);
+
+    }
+  }
 
   useEffect(() => {
     fetchInfo();
@@ -88,7 +131,7 @@ const Appointment = () => {
         {/* DOCTORS DETAILS */}
         <div className="flex flex-col sm:flex-row gap-4">
           <div>
-            <img className="bg-primary w-full sm:max-w-72 rounded-xl" src={docInfo.image} alt="" />
+            <img className="bg-gradient-to-t from-white to-primary w-full sm:max-w-72 rounded-xl" src={docInfo.image} alt="" />
           </div>
           <div className="flex-1 border border-gray-400 rounded-lg p-8 py-7 bg-white mx-2 sm:mx-0 mt-[-80px] sm:mt-0">
             {/* DOC INFO: NAME, DEGREE, EXPERIENCE */}
@@ -100,7 +143,7 @@ const Appointment = () => {
               <p>
                 {docInfo.degree} - {docInfo.speciality}
               </p>
-              <button className="py-0.5 px-2 border rounded-full text-xs ">{docInfo.experience}</button>
+              <button className="py-0.5 px-2 border rounded-full text-xs ">{docInfo.experience} Years</button>
             </div>
             {/* Doctor about */}
             <div>
@@ -139,7 +182,7 @@ const Appointment = () => {
               ))
             }
           </div>
-          <button className='bg-primary  text-white text-sm font-light px-14 py-3 mt-6 rounded-full hover:drop-shadow-xl  hover:scale-105 transition-all duration-500'>Book an appointment</button>
+          <button onClick={bookAppointment} className='bg-primary  text-white text-sm font-light px-14 py-3 mt-6 rounded-full hover:drop-shadow-xl  hover:scale-105 transition-all duration-500'>Book an appointment</button>
         </div>
 
             {/* LISTING THE RELATED DOCTORS */}

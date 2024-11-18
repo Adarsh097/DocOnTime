@@ -230,7 +230,7 @@ const AddDoctor = () => {
             value={about}
           ></textarea>
         </div>
-        <button className=" px-7 py-2 font-medium border mb-2 mt-2 rounded-full w-full outline-none hover:bg-gray-300 hover:text-gray-800 bg-primary text-white  hover:shadow-md transition-all duration-300 ease-in-out hover:scale-105 hover:translate-y-[-5px]">
+        <button className=" px-7 py-2 font-medium border mb-2 mt-2 rounded-full w-full outline-none hover:bg-sky-800  bg-primary text-white  hover:shadow-md transition-all duration-300 ease-in-out hover:scale-105 hover:translate-y-[-5px]">
           Add Doctor
         </button>
       </div>

@@ -10,6 +10,8 @@ import 'dotenv/config';
 import connectDB from './config/mongodb.js';
 import connectCloudinary from './config/cloudinary.js';
 import adminRouter from './routes/adminRoute.js';
+import doctorRouter from './routes/doctorRoute.js';
+import userRouter from './routes/userRoute.js';
 
 //! app config 
 // Initialize an instance of the Express application
@@ -42,6 +44,12 @@ app.get('/', (req, res) => {
 
 //! mouting the admin api's
 app.use('/api/admin',adminRouter);
+
+//! mounting the doctor api's
+app.use('/api/doctor',doctorRouter);
+
+//! mouting the user's api
+app.use('/api/user',userRouter);
 
 //! start server
 // Start the server and listen for incoming requests on the specified port

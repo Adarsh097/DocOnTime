@@ -35,4 +35,20 @@ const changeAvailability = async (req, res) => {
     }
 };
 
-export { changeAvailability };
+const doctorList = async(req,res)=>{
+    try {
+        const doctors = await doctorModel.find({}).select(['-password','-email']);
+        res.status(200).json({
+            success : true,
+            doctors
+        })
+    } catch (error) {
+        console.error("Error in displaying doctors:", error);
+        return res.status(500).json({
+            success: false,
+            message: 'An error occurred while displaying doctors'
+        });
+    }
+}
+
+export { changeAvailability,doctorList };

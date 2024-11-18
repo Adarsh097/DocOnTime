@@ -10,14 +10,19 @@ import MyAppointments from './pages/MyAppointments'
 import Appointment from './pages/Appointment'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   const location = useLocation();
   return (
     <div className='mx-4 sm:mx-[10%]'>
+      <ToastContainer/>
       {/* We added navbar component before hitting any routes so that, it will be visible for all the components. */}
-      <Navbar/>
-
+    
+      {
+        location.pathname != ('/login') &&   <Navbar/>
+      }
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/doctor' element={<Doctor/>}/>
@@ -30,8 +35,10 @@ const App = () => {
         <Route path='/appointment/:docId' element={<Appointment/>}/>
       </Routes>
       {/* CONDITION RENDER FOOTER ON ALL PAGES EXCEPT THE LOGIN PAGE */}
-      {location.pathname !== ('/login' && '/my-profile' && '/my-appointments') && <Footer/>}
+      {!(location.pathname === '/login') && <Footer />}
+
       {/* <Footer/> */}
+     
       
     </div>
   )
