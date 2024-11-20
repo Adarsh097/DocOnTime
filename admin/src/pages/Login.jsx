@@ -13,7 +13,7 @@ const Login = () => {
         event.preventDefault(); //! to prevent the loading of the webpage on submitting the form
         try {
             if (state === 'Admin') {
-                const {data} = await axios.post(backendUrl + '/api/admin/login',{
+                const {data} = await axios.post(`https://docontime.onrender.com` + '/api/admin/login',{
                     email : email,
                     password : password
                 });
