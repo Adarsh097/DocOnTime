@@ -14,7 +14,7 @@ const Navbar = () => {
        
     }
   return (
-    <div className='flex items-center justify-between px-4 sm:px-10 py-4 border-b bg-white shadow-lg'> 
+    <div className='flex items-center justify-between px-4 sm:px-10 py-4 border-b bg-white shadow-md'> 
       <div className='flex gap-3 items-center text-xs'>
         <img onClick={()=>{navigate(`/`)}} className='w-8 cursor-pointer ' src={assets.icon} alt="logo" />
 

@@ -20,13 +20,23 @@ const App = () => {
       <div className="flex items-start">
         <Sidebar />
         <Routes>
-          <Route path="/" element={<></>} />
+          <Route
+            path="/"
+            element={
+              <div className="mx-auto relative flex items-center justify-center h-screen bg-[#1c567a] text-white w-full">
+                <div className="text-6xl">
+                  <p>Welcome Admin!</p>
+                </div>
+              </div>
+            }
+          />
+
           {/* <Route path="/admin-dashboard" element={<Dashboard />} /> */}
           {/* <Route path="/all-appointments" element={<AllAppointment />} /> */}
           <Route path="/add-doctor" element={<AddDoctor />} />
           <Route path="/doctor-list" element={<DoctorsList />} />
         </Routes>
-      </div> 
+      </div>
     </div>
   ) : (
     <>
