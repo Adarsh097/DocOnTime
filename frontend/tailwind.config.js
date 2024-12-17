@@ -1,8 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-// eslint-disable-next-line no-unused-vars
-import defaultTheme from 'tailwindcss/defaultTheme';
-// eslint-disable-next-line no-unused-vars
-import colors from 'tailwindcss/colors';
+
 import { flattenColorPalette } from 'tailwindcss/lib/util/flattenColorPalette';
 
 export default {
