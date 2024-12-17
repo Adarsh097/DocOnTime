@@ -1,13 +1,10 @@
-/* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
 // eslint-disable-next-line no-unused-vars
-const defaultTheme = require("tailwindcss/defaultTheme");
- 
+import defaultTheme from 'tailwindcss/defaultTheme';
 // eslint-disable-next-line no-unused-vars
-const colors = require("tailwindcss/colors");
-const {
-  default: flattenColorPalette,
-} = require("tailwindcss/lib/util/flattenColorPalette");
+import colors from 'tailwindcss/colors';
+import { flattenColorPalette } from 'tailwindcss/lib/util/flattenColorPalette';
+
 export default {
   content: [
     "./index.html",
@@ -15,16 +12,15 @@ export default {
   ],
   theme: {
     extend: {
-      colors:{
+      colors: {
         'primary': "#1c567a",
-        'header-shadow':"#c9c9c9"
+        'header-shadow': "#c9c9c9"
       },
-      gridTemplateColumns:{
-        'auto':'repeat(auto-fill, minmax(200px, 1fr))'
+      gridTemplateColumns: {
+        'auto': 'repeat(auto-fill, minmax(200px, 1fr))'
       },
       animation: {
-        scroll:
-          "scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite",
+        scroll: "scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite",
       },
       keyframes: {
         scroll: {
@@ -34,11 +30,9 @@ export default {
         },
       }
     },
-
   },
   plugins: [addVariablesForColors],
-}
-
+};
 
 function addVariablesForColors({ addBase, theme }) {
   let allColors = flattenColorPalette(theme("colors"));
